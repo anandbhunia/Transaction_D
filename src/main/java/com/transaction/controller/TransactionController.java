@@ -55,9 +55,11 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<List<Transaction>> getAllTransaction() {
-		
-		return ResponseEntity.status(HttpStatus.OK).body(transactionService.getAllTransaction());
+	public ResponseEntity<List<Transaction>> getAllTransaction(@RequestParam(defaultValue = "1", value = "page") int pageNo,
+			@RequestParam(defaultValue = "10", name = "records") int pageSize,
+			@RequestParam(defaultValue = "transactionId", name = "sort") String sortBy) {
+		pageNo = pageNo > 0 ? pageNo -1 : 0;
+		return ResponseEntity.status(HttpStatus.OK).body(transactionService.getAllTransaction(pageSize, pageSize, sortBy));
 	}
 	
 	@GetMapping("/get/byAmount")

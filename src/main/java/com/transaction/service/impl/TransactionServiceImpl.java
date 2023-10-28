@@ -1,9 +1,13 @@
 package com.transaction.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.transaction.exception.ResourceNotFoundException;
@@ -54,9 +58,10 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Transaction> getAllTransaction() {
+	public List<Transaction> getAllTransaction(int pageNo, int pageSize, String sortBy) {
 		
-		return transactionRepository.findAll();
+		Page<Transaction> transactionPage = transactionRepository.findAll(PageRequest.of(pageNo, pageSize, Sort.by(sortBy)));
+		return transactionPage.hasContent() ? transactionPage.getContent() : new ArrayList<Transaction>();
 	}
 
 	@Override

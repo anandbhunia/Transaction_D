@@ -14,7 +14,7 @@ public interface TransactionService {
 	
 	public void deleteTransaction(Integer id);
 	
-	public List<Transaction> getAllTransaction();
+	public List<Transaction> getAllTransaction(int pageNo, int pageSize, String sortBy);
 	
 	public List<Transaction> getByAmount(Double amount);
 	
