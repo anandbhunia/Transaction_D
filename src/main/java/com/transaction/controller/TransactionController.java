@@ -19,6 +19,10 @@ import com.transaction.dto.ApiResponseDto;
 import com.transaction.model.Transaction;
 import com.transaction.service.TransactionService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -27,6 +31,10 @@ public class TransactionController {
 	private TransactionService transactionService;
 	
 	@PostMapping("/add")
+	@ApiOperation(value = "Request to add transaction")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"), 
+			@ApiResponse(code = 400, message = "Invalid Request"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) {
 		
 		Transaction newTransaction = transactionService.saveTransaction(transaction);
@@ -34,6 +42,10 @@ public class TransactionController {
 	}
 	
 	@PutMapping("/update")
+	@ApiOperation(value = "Request to edit transaction")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<Transaction> changeTransaction(@RequestBody Transaction transaction) {
 		
 		Transaction updatedTransaction = transactionService.updateTransaction(transaction);
@@ -41,6 +53,10 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/get/{id}")
+	@ApiOperation(value = "Request to get transaction using id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<Transaction> getTransaction(@PathVariable Integer id) {
 	
 		Transaction transaction = transactionService.getTransaction(id);
@@ -48,6 +64,10 @@ public class TransactionController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
+	@ApiOperation(value = "Request to delete transaction using id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<ApiResponseDto> removeTransaction(@PathVariable Integer id) {
 	
 		transactionService.deleteTransaction(id);
@@ -55,6 +75,10 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/getAll")
+	@ApiOperation(value = "Request to get all transactions")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<List<Transaction>> getAllTransaction(@RequestParam(defaultValue = "1", value = "page") int pageNo,
 			@RequestParam(defaultValue = "10", name = "records") int pageSize,
 			@RequestParam(defaultValue = "transactionId", name = "sort") String sortBy) {
@@ -63,18 +87,30 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/get/byAmount")
+	@ApiOperation(value = "Request to get transactions using amount")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<List<Transaction>> getByAmount(@RequestParam("amount") Double amount) {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.getByAmount(amount));
 	}
 	
 	@GetMapping("/get/byPolicyId")
+	@ApiOperation(value = "Request to get transactions using policy id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<List<Transaction>> getByPolicyId(@RequestParam("id") Integer id) {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.getByPolicyId(id));
 	}
 
 	@GetMapping("/get/byStatus")
+	@ApiOperation(value = "Request to get transactions by status")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"), 
+			@ApiResponse(code = 404, message = "Resource Not Found"),
+			@ApiResponse(code = 500, message = "Internal Error")})
 	public ResponseEntity<List<Transaction>> getByStatus(@RequestParam("status") String status) {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(transactionService.getByStatus(status));
